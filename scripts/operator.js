@@ -4,65 +4,6 @@
 // --- Utilidades --- //
 // ------------------ //
 
-// Funcao que cria uma matriz bidimensional de dimensoes x e y
-function new2dMatrix(x, y) {
-    var matrix = new Array(x);
-
-    for(var i = 0; i < x; i++) {
-	matrix[i] = new Array(y);
-    }
-
-    return matrix;
-}
-
-// Cria um vetor que guarda coordenadas bidimensionais x e y
-function Vector(x, y) {
-    this.x = x;
-    this.y = y;
-}
-
-// Funcao que soma o vetor a um outro vetor
-Vector.prototype.plus = function(other) {
-    return new Vector(this.x + other.x, this.y + other.y);
-};
-
-// Retorna um elemento aleatorio
-function randomElement(array) {
-    return array[Math.floor(Math.random() * array.length)];
-}
-
-// Variavel que cria um vetor com todas as direcoes cardinais
-var directionNames = "n ne e se s sw w nw ".split(" ");
-
-// Funcao que retorna um elemento baseado em um caractere e uma legenda
-function elementFromChar(legend, ch) {
-    if (ch == " ") {
-	return null;
-    }
-    var element = new legend[ch]();
-    element.originChar = ch;
-    return element;
-}
-
-// Funcao que traduz um element para um char
-function charFromElement(element) {
-    if (element == null) {
-	return " ";
-    } else {
-	return element.originChar;
-    }
-}
-// Objeto que traduz direcoes cardinais em um vetor bidimensional
-var directions = {
-    "n": new Vector(0, -1),
-    "ne": new Vector(1, -1),
-    "e": new Vector(1, 0),
-    "se": new Vector(1, 1),
-    "s": new Vector(0, 1), 
-    "sw": new Vector(-1, 1),
-    "w": new Vector(-1, 0),
-    "nw": new Vector(-1, -1)
-};
 
 // --------------- //
 // --- Objetos --- //
