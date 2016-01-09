@@ -219,7 +219,7 @@ var world;
 function takeNewWorld () {
     var plan = document.getElementById("newWorld").value.split("\n");
     world = new World (plan, {"#": Wall,
-				  "o": BouncingCritter});
+			      "o": BouncingCritter});
     flag = true;
 }
 function stopSim () {
