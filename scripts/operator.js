@@ -4,17 +4,6 @@
 // --- Utilidades --- //
 // ------------------ //
 
-// Funcao que cria uma matriz bidimensional de dimensoes x e y
-function new2dMatrix(x, y) {
-    var matrix = new Array(x);
-
-    for(var i = 0; i < x; i++) {
-	matrix[i] = new Array(y);
-    }
-
-    return matrix;
-}
-
 // Cria um vetor que guarda coordenadas bidimensionais x e y
 function Vector(x, y) {
     this.x = x;
@@ -68,68 +57,8 @@ var directions = {
 // --- Objetos --- //
 // --------------- //
 
-// --- Grid --- //
-// Objeto responsavel por guardar o grid bidimensional que contem o mapa do mundo
-function Grid(width, height) {
-    this.space = new2dMatrix(width, height);
-    this.width = width;
-    this.height = height;
-}
-// Diz se um par de coorenadas esta no grid
-Grid.prototype.isInside = function(vector) {
-    return vector.x >= 0 && vector.x < this.width && vector.y >= 0 && vector.y < this.height;
-};
-// Getter e setters
-Grid.prototype.get = function(vector) {
-    return this.space[vector.x][vector.y];
-};
-Grid.prototype.set = function(vector, value) {
-    this.space[vector.x][vector.y] = value;
-};
-Grid.prototype.forEach = function(f, context) {
-    for (var y = 0; y < this.height; y++) {
-	for (var x = 0; x < this.width; x++){
-	    var value = this.space[x][y];
-	    if (value != null) {
-		f.call(context, value, new Vector(x, y));
-	    }
-	}
-    }
-};
 
-// --- View --- //
-// Objeto que permite ao critter ver os arredores dele, seu construtor recebe a posicao atual do critter (na forma de um Vector)
-function View(world, vector) {
-    this.world = world;
-    this.vector = vector;
-}
-// Retorna o caractere que descreve o que há naquela direcao
-View.prototype.look = function(dir) {
-    var target = this.vector.plus(directions[dir]);
-    if (this.world.grid.isInside(target)) {
-	return charFromElement(this.world.grid.get(target));
-    } else {
-	return "#";
-    }
-};
-// Retorna todas as direcoes em que um certo caractere pode ser encontrado em relacao ao critter
-View.prototype.findAll = function(ch) {
-    var found = [];
-    for (var dir in directions) {
-	if (this.look(dir) == ch) {
-	    found.push(dir);
-	}
-    }
-    return found;
-};
-// Retorna uma direcao em que um certo caractere pode ser encontrado em relacao ao critter
-View.prototype.find = function(ch) {
-    var found = this.findAll(ch);
-    if (found.length == 0) {
-	return null;
-    }
-    return randomElement(found);
-};
+
 // --- BouncingCritter --- //
 // Objeto que descreve um critter 
 function BouncingCritter() {
@@ -142,63 +71,6 @@ BouncingCritter.prototype.act = function(view) {
     }
     return {type: "move", direction: this.direction};
 };
-
-// --- World --- //
-// Objeto que representa o mundo, o construtor toma um mapa (uma matriz de caracteres) e uma legenda
-function World(map, legend) {
-    var grid = new Grid(map[0].length, map.length);
-    this.grid = grid;
-    this.legend = legend;
-
-    map.forEach(function(line, y) {
-	for (var x = 0; x < line.length; x++) {
-	    grid.set(new Vector(x, y), elementFromChar(legend, line[x]));
-	}
-    }); 
-};
-// Transforma o estado atual do mundo em uma string
-World.prototype.toString = function() {
-    var output = "";
-    for (var y = 0; y < this.grid.height; y++) {
-	for (var x = 0; x < this.grid.width; x++) {
-	    var element = this.grid.get(new Vector(x, y));
-	    output += charFromElement(element);
-	}
-	output += "\n";
-    }
-    return output;
-};
-// Metodo que define um turno onde os critter podem realizar suas acoes
-World.prototype.turn = function() {
-    var acted = [];
-    this.grid.forEach(function(critter, vector) {
-	if (critter.act && acted.indexOf(critter) == -1) {
-	    acted.push(critter);
-	    this.letAct(critter, vector);
-	}
-    }, this);
-};
-// Metodo que permite ao critter se mover
-World.prototype.letAct = function(critter, vector) {
-    var action = critter.act(new View(this, vector));
-    if (action && action.type == "move") {
-	var dest  = this.checkDestination(action, vector);
-	if (dest && this.grid.get(dest) == null) {
-	    this.grid.set(vector, null);
-	    this.grid.set(dest, critter);
-	}
-    }
-};
-// Confere se um destino eh valido 
-World.prototype.checkDestination = function(action, vector) {
-    if (directions.hasOwnProperty(action.direction)) {
-	var dest = vector.plus(directions[action.direction]);
-	if (this.grid.isInside(dest)) {
-	    return dest;
-	}
-    }
-};
-
 // --- Wall --- //
 // Objeto simples que nao tem um metodo act
 function Wall() {}
