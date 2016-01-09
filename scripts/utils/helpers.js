@@ -6,7 +6,7 @@ define (
 	["./vector"],
 
 	// return the object with all the methods of helper
-	//function(vector) {
+	function(vector) {
 		return {
 			//creates a 2d Matrix
 			new2dMatrix: function (x, y) {
@@ -17,12 +17,12 @@ define (
 			    }
 
 			    return matrix;
-			};
+			},
 
 			// returns a random element inside an given array
-			randomElement: function (array){
+			randomElement: function (array) {
 			    return array[Math.floor(Math.random() * array.length)];
-			};
+			},
 
 			// variable that creates an array with the cardinal directions
 
@@ -36,20 +36,20 @@ define (
 			    var element = new legend[ch]();
 			    element.originChar = ch;
 			    return element;
-			}
+			},
 
-			
+		    
 			// translate an element to a char
-			function charFromElement(element) {
-			    if (element == null) {
-					return " ";
-			    } else {
-					return element.originChar;
-			    }
+		    charFromElement: function (element) {
+			if (element == null) {
+			    return " ";
+			} else {
+			    return element.originChar;
 			}
+		    },
 
 			// translate the cardinal diretions to vectors
-			var directions = {
+		    directions: {
 			    "n" : new Vector(0, -1),
 			    "ne": new Vector(1, -1),
 			    "e" : new Vector(1,  0),
@@ -58,7 +58,7 @@ define (
 			    "sw": new Vector(-1, 1),
 			    "w" : new Vector(-1, 0),
 			    "nw": new Vector(-1, -1)
-			};
+			}
 		}
-	//}
+	}
 );

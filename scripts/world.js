@@ -4,7 +4,7 @@ define(
     "world",
 
     // Dependencias
-    ["critters", "grid", "vector", "./utils/helpers"],
+    ["critters", "grid", "./utils/vector", "./utils/helpers"],
     
     function (critters, grid, vector, helper) {
 	function World(map, legend) {
@@ -64,5 +64,5 @@ define(
 	    }, this);
 	};
 	return World;
-    };
+    }
 );

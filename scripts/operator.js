@@ -2,7 +2,7 @@
 
 define (
     //name of the module (in this case our main)
-    "operators",
+    "operator",
 
     //array of dependencies
     ["./wall", "./world", "./critters"],

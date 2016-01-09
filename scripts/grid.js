@@ -2,7 +2,7 @@ define(
 	//name of the module
     "grid",
     //array of dependencies
-    ["./utils/helpers"]
+    ["./utils/helpers"],
 
     function(helpers) {
 		// --- Construtor --- //
